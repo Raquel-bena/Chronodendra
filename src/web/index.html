@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronodendra | Memoria de los Incendios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+        <header class="project-header">
+            <h1>CHRONODENDRA</h1>
+            <p class="subtitle">Anillos de Historia y Fuego (2007 - 2025)</p>
+        </header>
+
+        <section class="vis-container">
+            <canvas id="treeCanvas"></canvas>
+            <div id="tooltip" class="tooltip hidden">
+                <span class="tooltip-year"></span>
+            </div>
+        </section>
+
+        <aside class="info-panel" id="infoPanel">
+            <div class="info-content default-state">
+                <h2>Explora la Dendrocronología</h2>
+                <p>Pasa el cursor sobre los anillos para revelar la historia de los incendios en Galicia año tras año.
+                </p>
+                <div class="legend">
+                    <h3>Leyenda</h3>
+                    <div class="legend-item"><span class="swatch color-low"></span> Riesgo Bajo / Recuperación</div>
+                    <div class="legend-item"><span class="swatch color-med"></span> Riesgo Moderado</div>
+                    <div class="legend-item"><span class="swatch color-high"></span> Riesgo Alto / Grandes Incendios
+                    </div>
+                </div>
+            </div>
+            <div class="info-content active-state hidden">
+                <h2 id="yearTitle">2024</h2>
+                <h3 id="eventTitle">Titulo del Evento</h3>
+                <p id="eventSummary">Resumen del evento...</p>
+                <span id="eventSource" class="source-tag">Fuente</span>
+            </div>
+        </aside>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

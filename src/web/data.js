@@ -1,0 +1,97 @@
+const EVENTS_DATA = {
+    "2007": {
+        "title": "Incendios en Galicia 2007",
+        "summary": "Uno de los años más graves registrados: miles de hectáreas afectadas y un aumento notable de incendios provocados.",
+        "source": "Xunta de Galicia / prensa local"
+    },
+    "2008": {
+        "title": "Incendios en Galicia 2008",
+        "summary": "Año con menos superficie quemada gracias a condiciones meteorológicas favorables y campañas de prevención.",
+        "source": "Xunta de Galicia"
+    },
+    "2009": {
+        "title": "Incendios en Galicia 2009",
+        "summary": "Rebrote de incendios estivales en Ourense y Pontevedra. Se refuerza la vigilancia rural.",
+        "source": "Prensa local"
+    },
+    "2010": {
+        "title": "Incendios en Galicia 2010",
+        "summary": "Año relativamente estable. La mayor parte de incendios se concentran en agosto.",
+        "source": "Meteogalicia"
+    },
+    "2011": {
+        "title": "Incendios en Galicia 2011",
+        "summary": "Fuerte aumento de incendios forestales debido a una sequía prolongada.",
+        "source": "Xunta / Informes ambientales"
+    },
+    "2012": {
+        "title": "Incendios en Galicia 2012",
+        "summary": "Uno de los peores años de la década. Miles de hectáreas quemadas y varios incendios simultáneos.",
+        "source": "Prensa nacional"
+    },
+    "2013": {
+        "title": "Incendios en Galicia 2013",
+        "summary": "Descenso notable respecto al año anterior. Mejoras en coordinación de brigadas.",
+        "source": "Xunta"
+    },
+    "2014": {
+        "title": "Incendios en Galicia 2014",
+        "summary": "Año suave, condicionado por lluvias frecuentes que redujeron el riesgo.",
+        "source": "Meteogalicia"
+    },
+    "2015": {
+        "title": "Incendios en Galicia 2015",
+        "summary": "Incremento significativo de superficie quemada. Incendios en zonas urbanas de O Barbanza.",
+        "source": "Prensa local"
+    },
+    "2016": {
+        "title": "Incendios en Galicia 2016",
+        "summary": "Año crítico. Fuegos simultáneos en varias provincias generaron situaciones de emergencia.",
+        "source": "Xunta / Protección civil"
+    },
+    "2017": {
+        "title": "Incendios en Galicia 2017",
+        "summary": "Año trágico. Olas de incendios afectaron Vigo, Nigrán y Redondela. Varios fallecidos.",
+        "source": "Prensa nacional"
+    },
+    "2018": {
+        "title": "Incendios en Galicia 2018",
+        "summary": "Estabilidad general con pocos incendios de gran magnitud.",
+        "source": "Xunta"
+    },
+    "2019": {
+        "title": "Incendios en Galicia 2019",
+        "summary": "Incendios importantes en Monterrei y A Mezquita. Alto riesgo por fuertes vientos.",
+        "source": "Prensa local"
+    },
+    "2020": {
+        "title": "Incendios en Galicia 2020",
+        "summary": "Descenso notable por restricciones de movilidad durante la pandemia.",
+        "source": "Informes ambientales"
+    },
+    "2021": {
+        "title": "Incendios en Galicia 2021",
+        "summary": "Temporada irregular. Rebrotes de incendios durante septiembre.",
+        "source": "Xunta"
+    },
+    "2022": {
+        "title": "Incendios en Galicia 2022",
+        "summary": "Uno de los peores años recientes. Grandes incendios en Valdeorras, O Courel y Macizo Central.",
+        "source": "Prensa nacional"
+    },
+    "2023": {
+        "title": "Incendios en Galicia 2023",
+        "summary": "Año moderado con algunos episodios severos en Ourense.",
+        "source": "Meteogalicia"
+    },
+    "2024": {
+        "title": "Incendios en Galicia 2024",
+        "summary": "Incremento de días de riesgo extremo por olas de calor asociadas al cambio climático.",
+        "source": "Informes climáticos"
+    },
+    "2025": {
+        "title": "Incendios en Galicia 2025",
+        "summary": "Proyección estimada basada en tendencias recientes: riesgo elevado y aumento de superficie afectada.",
+        "source": "Proyección propia"
+    }
+};
