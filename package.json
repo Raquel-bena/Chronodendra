@@ -1,0 +1,25 @@
+{
+  "name": "chronodendra",
+  "version": "1.0.0",
+  "description": "![Banner](./assets/banner.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raquel-bena/Chronodendra.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Raquel-bena/Chronodendra/issues"
+  },
+  "homepage": "https://github.com/Raquel-bena/Chronodendra#readme",
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0"
+  }
+}
