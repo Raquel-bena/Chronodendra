@@ -1,0 +1,54 @@
+Chronodendra
+
+Chronodendra (Tree Rings)
+
+Reconectar con la memoria viva de los bosques
+
+Chronodendra es un proyecto artístico-digital que utiliza los anillos de crecimiento de los árboles como metáfora visual y emocional para explorar nuestra relación con los bosques de Galicia.
+
+Cada árbol guarda en su interior una memoria precisa del tiempo:
+cada anillo representa un año de vida, un ciclo, una historia.
+
+El proyecto propone leer esos anillos como si fueran capítulos de un archivo vivo, pero desde la perspectiva de un territorio profundamente marcado por los incendios forestales.
+
+Cómo funciona la experiencia
+
+En una web interactiva, el usuario ve la sección de un tronco representado con todos sus anillos.
+Cada anillo corresponde a un año entre 2007 y 2025.
+
+Al clicar en un anillo, se despliega una noticia o registro sobre un incendio ocurrido en Galicia ese mismo año.
+
+El acto de hacer clic es simbólico: es “entrar” en la memoria viva del árbol.
+
+Cada noticia funciona como un recordatorio de cómo los bosques han ido resistiendo, cicatrizando y adaptándose a pesar de la repetición del fuego.
+
+Intención y mensaje del proyecto
+
+Chronodendra busca:
+
+🌱 1. Reconectar a la sociedad con los árboles
+
+Mostrar que un árbol no es solo un elemento del paisaje, sino un organismo que vive, siente los cambios y almacena memoria.
+
+🔥 2. Comprender el impacto humano y climático
+
+Los incendios no se muestran como estadísticas frías, sino como eventos inscritos en la carne del árbol, visibles en su crecimiento y en sus pausas.
+
+🕰️ 3. Convertir la naturaleza en archivo
+
+Los árboles se vuelven narradores: sus anillos son una línea temporal viva que cuenta cómo cada año ha dejado una huella distinta.
+
+🌳 4. Fomentar una relación emocional con el bosque
+
+Al ver un incendio reflejado en el anillo correspondiente, el usuario comprende que:
+
+cada anillo es una vida que continúa,
+
+cada incendio es una herida que permanece,
+
+el bosque recuerda incluso cuando nosotros olvidamos.
+
+En resumen
+
+Chronodendra convierte la anatomía de un árbol en una herramienta de conciencia ecológica, usando los anillos como portales a la historia reciente de Galicia.
+Es un proyecto que combina arte, ciencia, memoria e impacto social, invitando al usuario a mirar los árboles no como objetos del paisaje, sino como testigos silenciosos del tiempo y de nuestras acciones.
