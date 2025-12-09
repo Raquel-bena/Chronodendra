@@ -77,7 +77,7 @@ $ npm run dev
 
 ## Project Structure
 
-```
+```text
 chronodendra/
 ├── public/
 ├── src/

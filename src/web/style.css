@@ -152,8 +152,10 @@ body {
     line-height: 0.9;
     margin-bottom: 0.5rem;
     background: linear-gradient(to bottom right, #ffffff, #a5f3fc);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
 }
 
 .info-content h3 {
