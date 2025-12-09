@@ -200,17 +200,6 @@ function updateUI() {
         defaultState.classList.add('hidden');
         activeState.classList.remove('hidden');
 
-        document.getElementById('yearTitle').textContent = hoverYear;
-        document.getElementById('eventTitle').textContent = data.title;
-        document.getElementById('eventSummary').textContent = data.summary;
-        document.getElementById('eventSource').textContent = data.source;
-
-        // Optional: dynamic border color for panel
-        const severity = analyzeSeverity(data.summary);
-        if (severity === 2) panel.style.borderLeftColor = CONFIG.colors.high;
-        else if (severity === 0) panel.style.borderLeftColor = CONFIG.colors.low;
-        else panel.style.borderLeftColor = CONFIG.colors.med;
-
     } else {
         defaultState.classList.remove('hidden');
         activeState.classList.add('hidden');
