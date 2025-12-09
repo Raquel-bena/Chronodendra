@@ -151,7 +151,7 @@ body {
     letter-spacing: -0.05em;
     line-height: 0.9;
     margin-bottom: 0.5rem;
-    background: linear-gradient(to bottom right, #fff, #999);
+    background: linear-gradient(to bottom right, #ffffff, #a5f3fc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
