@@ -26,19 +26,19 @@ Intención y mensaje del proyecto
 
 Chronodendra busca:
 
-🌱 1. Reconectar a la sociedad con los árboles
+ 1. Reconectar a la sociedad con los árboles
 
 Mostrar que un árbol no es solo un elemento del paisaje, sino un organismo que vive, siente los cambios y almacena memoria.
 
-🔥 2. Comprender el impacto humano y climático
+2. Comprender el impacto humano y climático
 
 Los incendios no se muestran como estadísticas frías, sino como eventos inscritos en la carne del árbol, visibles en su crecimiento y en sus pausas.
 
-🕰️ 3. Convertir la naturaleza en archivo
+3. Convertir la naturaleza en archivo
 
 Los árboles se vuelven narradores: sus anillos son una línea temporal viva que cuenta cómo cada año ha dejado una huella distinta.
 
-🌳 4. Fomentar una relación emocional con el bosque
+ 4. Fomentar una relación emocional con el bosque
 
 Al ver un incendio reflejado en el anillo correspondiente, el usuario comprende que:
 
