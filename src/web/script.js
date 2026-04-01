@@ -12,6 +12,7 @@ const CENTER = { x: 0, y: 0 };
 let MAX_RADIUS = 0;
 let hoverYear = null;
 let selectedYear = null;
+let thumbButtons = [];
 
 const LOCAL_IMAGE_BY_YEAR = {
     2007: '../../assets/photos/2007.png',
@@ -73,6 +74,7 @@ function analyzeSeverity(summary) {
 function init() {
     resize();
     processData();
+    renderThumbRing();
     window.addEventListener('resize', resize);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('click', handleCanvasClick);
@@ -92,6 +94,7 @@ function resize() {
     canvas.height = parent.clientHeight;
     CENTER.x = canvas.width / 2;
     CENTER.y = canvas.height / 2;
+    layoutThumbRing();
     draw();
 }
 
@@ -122,6 +125,81 @@ function processData() {
     });
 
     MAX_RADIUS = CONFIG.baseRadius + (years.length * CONFIG.ringGap);
+}
+
+function renderThumbRing() {
+    const thumbRing = document.getElementById('thumbRing');
+    thumbRing.innerHTML = '';
+    thumbButtons = [];
+
+    rings.forEach(ring => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'thumb-item';
+        button.setAttribute('aria-label', `Seleccionar anillo ${ring.year}`);
+        button.title = `${ring.year}`;
+        button.dataset.year = String(ring.year);
+
+        const img = document.createElement('img');
+        const fallback = ring.data && ring.data.image ? ring.data.image : '';
+        img.src = getImageForYear(ring.year, fallback);
+        img.alt = `Miniatura ${ring.year}`;
+        img.loading = 'lazy';
+        img.onerror = () => {
+            if (fallback) img.src = fallback;
+        };
+
+        button.appendChild(img);
+        button.addEventListener('mouseenter', () => {
+            hoverYear = ring.year;
+            updateUI();
+            draw();
+        });
+        button.addEventListener('mouseleave', () => {
+            hoverYear = null;
+            updateUI();
+            draw();
+        });
+        button.addEventListener('click', () => {
+            selectedYear = ring.year;
+            hoverYear = ring.year;
+            updateUI();
+            draw();
+        });
+
+        thumbRing.appendChild(button);
+        thumbButtons.push(button);
+    });
+
+    layoutThumbRing();
+}
+
+function layoutThumbRing() {
+    if (!thumbButtons.length) return;
+
+    const thumbRadius = MAX_RADIUS + 36;
+    const total = thumbButtons.length;
+    const startAngle = -Math.PI / 2;
+
+    thumbButtons.forEach((button, index) => {
+        const angle = startAngle + (index / total) * Math.PI * 2;
+        const x = CENTER.x + Math.cos(angle) * thumbRadius;
+        const y = CENTER.y + Math.sin(angle) * thumbRadius;
+        button.style.left = `${x}px`;
+        button.style.top = `${y}px`;
+    });
+}
+
+function syncThumbSelection() {
+    const activeYear = getActiveYear();
+    thumbButtons.forEach(button => {
+        const year = parseInt(button.dataset.year, 10);
+        if (year === activeYear) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
 }
 
 function draw() {
@@ -301,11 +379,13 @@ function updateUI() {
         }
 
         panel.style.borderLeftColor = ring ? hexToRgba(ring.color, 0.6) : 'rgba(255, 255, 255, 0.1)';
+        syncThumbSelection();
 
     } else {
         defaultState.classList.remove('hidden');
         activeState.classList.add('hidden');
         panel.style.borderLeftColor = 'rgba(255, 255, 255, 0.1)';
+        syncThumbSelection();
     }
 }
 
