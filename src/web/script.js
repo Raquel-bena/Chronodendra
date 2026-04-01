@@ -11,6 +11,29 @@ let rings = [];
 const CENTER = { x: 0, y: 0 };
 let MAX_RADIUS = 0;
 let hoverYear = null;
+let selectedYear = null;
+
+const LOCAL_IMAGE_BY_YEAR = {
+    2007: '../../assets/photos/2007.png',
+    2008: '../../assets/photos/2008.png',
+    2009: '../../assets/photos/2009.png',
+    2010: '../../assets/photos/2010.png',
+    2011: '../../assets/photos/2011.png',
+    2012: '../../assets/photos/2012.png',
+    2013: '../../assets/photos/2013.png',
+    2014: '../../assets/photos/Incendios-2007-2010.png',
+    2015: '../../assets/photos/2015.png',
+    2016: '../../assets/photos/2016.png',
+    2017: '../../assets/photos/2017.png',
+    2018: '../../assets/photos/2018.png',
+    2019: '../../assets/photos/2019.png',
+    2020: '../../assets/photos/2020.png',
+    2021: '../../assets/photos/2021.png',
+    2022: '../../assets/photos/2022.png',
+    2023: '../../assets/photos/2023.png',
+    2024: '../../assets/photos/2024.png',
+    2025: '../../assets/photos/incendios-galicia.jpg'
+};
 
 // Configuration
 const CONFIG = {
@@ -52,6 +75,7 @@ function init() {
     processData();
     window.addEventListener('resize', resize);
     canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('click', handleCanvasClick);
     canvas.addEventListener('mouseleave', () => {
         hoverYear = null;
         updateUI();
@@ -73,7 +97,9 @@ function resize() {
 
 function processData() {
     rings = [];
-    const years = Object.keys(EVENTS_DATA).sort();
+    const years = Object.keys(EVENTS_DATA)
+        .map(year => parseInt(year, 10))
+        .sort((a, b) => a - b);
 
     years.forEach((year, index) => {
         const data = EVENTS_DATA[year];
@@ -85,7 +111,7 @@ function processData() {
         else color = CONFIG.colors.med;
 
         rings.push({
-            year: parseInt(year),
+            year: year,
             index: index,
             baseRadius: CONFIG.baseRadius + (index * CONFIG.ringGap),
             color: color,
@@ -112,10 +138,12 @@ function drawRing(ring) {
 
     // Highlight effect
     const isHovered = (hoverYear === ring.year);
-    ctx.lineWidth = isHovered ? 4 : 2;
+    const isSelected = (selectedYear === ring.year);
+
+    ctx.lineWidth = isSelected ? 5 : (isHovered ? 4 : 2);
     ctx.strokeStyle = ring.color;
 
-    if (isHovered) {
+    if (isHovered || isSelected) {
         ctx.shadowBlur = 15;
         ctx.shadowColor = ring.color;
     } else {
@@ -138,8 +166,33 @@ function drawRing(ring) {
     }
 
     ctx.closePath();
+    if (isSelected) {
+        ctx.fillStyle = hexToRgba(ring.color, 0.12);
+        ctx.fill();
+    }
     ctx.stroke();
     ctx.shadowBlur = 0; // Reset
+}
+
+function hexToRgba(hex, alpha) {
+    const parsed = hex.replace('#', '');
+    const bigint = parseInt(parsed, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function getRingByYear(year) {
+    return rings.find(ring => ring.year === year) || null;
+}
+
+function getActiveYear() {
+    return hoverYear ?? selectedYear;
+}
+
+function getImageForYear(year, fallback) {
+    return LOCAL_IMAGE_BY_YEAR[year] || fallback;
 }
 
 function handleMouseMove(e) {
@@ -153,7 +206,7 @@ function handleMouseMove(e) {
     let minDiff = Infinity;
 
     // We check distance against the base radius of each ring
-    // This is an approximation; for exact collision with irregular rings we'd need more math, 
+    // This is an approximation; for exact collision with irregular rings we'd need more math,
     // but for UI interactions checks against base radius are usually sufficient and detailed enough.
     rings.forEach(ring => {
         const diff = Math.abs(dist - ring.baseRadius);
@@ -189,16 +242,65 @@ function handleMouseMove(e) {
     }
 }
 
+function handleCanvasClick() {
+    if (!hoverYear) return;
+
+    selectedYear = hoverYear;
+    updateUI();
+    draw();
+}
+
 function updateUI() {
     const defaultState = document.querySelector('.default-state');
     const activeState = document.querySelector('.active-state');
     const panel = document.getElementById('infoPanel');
+    const yearTitle = document.getElementById('yearTitle');
+    const eventTitle = document.getElementById('eventTitle');
+    const eventSummary = document.getElementById('eventSummary');
+    const eventSource = document.getElementById('eventSource');
+    const eventImage = document.getElementById('eventImage');
+    const linksContainer = document.getElementById('linksContainer');
+    const linkList = document.getElementById('linkList');
 
-    if (hoverYear) {
-        const data = EVENTS_DATA[hoverYear];
+    const activeYear = getActiveYear();
+
+    if (activeYear) {
+        const data = EVENTS_DATA[activeYear];
+        const ring = getRingByYear(activeYear);
 
         defaultState.classList.add('hidden');
         activeState.classList.remove('hidden');
+
+        yearTitle.textContent = activeYear;
+        eventTitle.textContent = data.title;
+        eventSummary.textContent = data.summary;
+        eventSource.textContent = data.source;
+
+        eventImage.src = getImageForYear(activeYear, data.image);
+        eventImage.alt = `Imagen del anillo ${activeYear}`;
+        eventImage.classList.remove('hidden');
+        eventImage.onerror = () => {
+            eventImage.src = data.image;
+        };
+
+        linkList.innerHTML = '';
+        if (Array.isArray(data.links) && data.links.length > 0) {
+            data.links.forEach(link => {
+                const li = document.createElement('li');
+                const anchor = document.createElement('a');
+                anchor.href = link.url;
+                anchor.target = '_blank';
+                anchor.rel = 'noopener noreferrer';
+                anchor.textContent = link.text;
+                li.appendChild(anchor);
+                linkList.appendChild(li);
+            });
+            linksContainer.classList.remove('hidden');
+        } else {
+            linksContainer.classList.add('hidden');
+        }
+
+        panel.style.borderLeftColor = ring ? hexToRgba(ring.color, 0.6) : 'rgba(255, 255, 255, 0.1)';
 
     } else {
         defaultState.classList.remove('hidden');
