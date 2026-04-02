@@ -1,10 +1,14 @@
 {
   "name": "chronodendra",
   "version": "1.0.0",
-  "description": "![Banner](./assets/banner.png)",
+  "description": "Chronodendra wildfire memory landing with interactive tree rings",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "http-server src/web -p 5173 -c-1",
+    "start": "npm run dev",
+    "serve": "http-server src/web -p 8010 -c-1",
+    "lint": "eslint \"src/**/*.js\"",
+    "test": "echo \"No automated tests configured yet\""
   },
   "repository": {
     "type": "git",
@@ -20,6 +24,7 @@
   "homepage": "https://github.com/Raquel-bena/Chronodendra#readme",
   "devDependencies": {
     "eslint": "^9.39.1",
-    "globals": "^16.5.0"
+    "globals": "^16.5.0",
+    "http-server": "^14.1.1"
   }
 }

@@ -4,62 +4,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chronodendra | Memoria de los Incendios</title>
+    <title>Chronodendra | Wildfire Memory / Memoria dos Incendios</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
-    <main class="container">
-        <header class="project-header">
-            <h1>CHRONODENDRA</h1>
-            <p class="subtitle">Anillos de Historia y Fuego (2007 - 2025)</p>
+    <div class="bg-noise"></div>
+    <main class="page">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-dot"></span>
+                <h1>CHRONODENDRA</h1>
+            </div>
+            <p class="subtitle">Rings of Fire History / Aneis de historia do lume (2007 - 2025)</p>
+            <a class="live-link" href="https://jolly-granita-2d7d80.netlify.app" target="_blank" rel="noopener noreferrer">
+                Live Demo / Demo en Vivo
+            </a>
         </header>
 
-        <section class="vis-container">
-            <canvas id="treeCanvas"></canvas>
-            <div id="thumbRing" class="thumb-ring" aria-label="Anillo de miniaturas por año"></div>
-            <div id="tooltip" class="tooltip hidden">
-                <span class="tooltip-year"></span>
-            </div>
+        <section class="container">
+            <section class="vis-container">
+                <canvas id="treeCanvas"></canvas>
+                <div class="hero-copy">
+                    <p class="eyebrow">Digital Dendrochronology / Dendrocronoloxia Dixital</p>
+                    <h2>A living wildfire archive through interactive rings / Un arquivo vivo de incendios a traves de aneis interactivos.</h2>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <span class="stat-value">19</span>
+                        <span class="stat-label">Years Analyzed / Anos Analizados</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">3</span>
+                        <span class="stat-label">Severity Levels / Niveis de Severidade</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">360°</span>
+                        <span class="stat-label">Radial Navigation / Navegacion Radial</span>
+                    </div>
+                </div>
+                <div id="thumbRing" class="thumb-ring" aria-label="Anillo de miniaturas por año"></div>
+                <div id="tooltip" class="tooltip hidden">
+                    <span class="tooltip-year"></span>
+                </div>
+            </section>
+
+            <aside class="info-panel" id="infoPanel">
+                <div class="info-content default-state">
+                    <h2>Explore ecological memory / Explora a memoria ecologica</h2>
+                    <p>Hover the rings to explore wildfire history in Galicia, year by year / Pasa polos aneis para explorar a historia dos incendios en Galicia, ano a ano.</p>
+                    <p>Click a ring or thumbnail to pin the year, open imagery and read sources / Fai clic nun anel ou miniatura para fixar o ano, abrir imaxes e ler fontes.</p>
+
+                    <div class="legend">
+                        <h3>Severity Legend / Lenda de Severidade</h3>
+                        <div class="legend-item"><span class="swatch color-low"></span> Low Risk / Risco Baixo</div>
+                        <div class="legend-item"><span class="swatch color-med"></span> Moderate Risk / Risco Moderado</div>
+                        <div class="legend-item"><span class="swatch color-high"></span> High Risk / Grandes Incendios</div>
+                    </div>
+                </div>
+
+                <div class="info-content active-state hidden">
+                    <div class="media-container">
+                        <img id="eventImage" src="" alt="Event Image" class="event-image hidden">
+                    </div>
+                    <div class="text-content">
+                        <h2 id="yearTitle">2024</h2>
+                        <h3 id="eventTitle">Event Title / Titulo do Evento</h3>
+                        <p id="eventSummary">Event summary / Resumo do evento...</p>
+                        <span id="eventSource" class="source-tag">Source / Fonte</span>
+
+                        <div id="linksContainer" class="links-section hidden">
+                            <h4>News and Reports / Novas e Reportaxes</h4>
+                            <ul id="linkList"></ul>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </section>
-
-        <aside class="info-panel" id="infoPanel">
-            <div class="info-content default-state">
-                <h2>Explora la Dendrocronología</h2>
-                <p>Pasa el cursor sobre los anillos para revelar la historia de los incendios en Galicia año tras año.
-                </p>
-                <p>Haz clic en un anillo para fijar el año, ver la imagen ordenada por cronología y abrir sus enlaces.
-                </p>
-                <div class="legend">
-                    <h3>Leyenda</h3>
-                    <div class="legend-item"><span class="swatch color-low"></span> Riesgo Bajo / Recuperación</div>
-                    <div class="legend-item"><span class="swatch color-med"></span> Riesgo Moderado</div>
-                    <div class="legend-item"><span class="swatch color-high"></span> Riesgo Alto / Grandes Incendios
-                    </div>
-                </div>
-            </div>
-            <div class="info-content active-state hidden">
-                <div class="media-container">
-                    <img id="eventImage" src="" alt="Event Image" class="event-image hidden">
-                </div>
-                <div class="text-content">
-                    <h2 id="yearTitle">2024</h2>
-                    <h3 id="eventTitle">Titulo del Evento</h3>
-                    <p id="eventSummary">Resumen del evento...</p>
-                    <span id="eventSource" class="source-tag">Fuente</span>
-
-                    <div id="linksContainer" class="links-section hidden">
-                        <h4>Noticias y Reportajes</h4>
-                        <ul id="linkList"></ul>
-                    </div>
-                </div>
-            </div>
-        </aside>
     </main>
 
     <script src="data.js"></script>

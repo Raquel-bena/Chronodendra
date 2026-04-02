@@ -14,27 +14,30 @@ let hoverYear = null;
 let selectedYear = null;
 let thumbButtons = [];
 
-const LOCAL_IMAGE_BY_YEAR = {
-    2007: '../../assets/photos/2007.png',
-    2008: '../../assets/photos/2008.png',
-    2009: '../../assets/photos/2009.png',
-    2010: '../../assets/photos/2010.png',
-    2011: '../../assets/photos/2011.png',
-    2012: '../../assets/photos/2012.png',
-    2013: '../../assets/photos/2013.png',
-    2014: '../../assets/photos/Incendios-2007-2010.png',
-    2015: '../../assets/photos/2015.png',
-    2016: '../../assets/photos/2016.png',
-    2017: '../../assets/photos/2017.png',
-    2018: '../../assets/photos/2018.png',
-    2019: '../../assets/photos/2019.png',
-    2020: '../../assets/photos/2020.png',
-    2021: '../../assets/photos/2021.png',
-    2022: '../../assets/photos/2022.png',
-    2023: '../../assets/photos/2023.png',
-    2024: '../../assets/photos/2024.png',
-    2025: '../../assets/photos/incendios-galicia.jpg'
-};
+const FALLBACK_REFERENCES = [
+    {
+        text_en: 'European Forest Fire Information System',
+        text_gl: 'Sistema Europeo de Informacion sobre Incendios Forestais',
+        url: 'https://forest-fire.emergency.copernicus.eu/'
+    },
+    {
+        text_en: 'Xunta de Galicia - Forest Fires',
+        text_gl: 'Xunta de Galicia - Incendios Forestais',
+        url: 'https://www.xunta.gal'
+    },
+    {
+        text_en: 'Spain Wildfire Statistics (MITECO)',
+        text_gl: 'Estatisticas de incendios en Espana (MITECO)',
+        url: 'https://www.miteco.gob.es/es/biodiversidad/temas/incendios-forestales/'
+    },
+    {
+        text_en: 'Copernicus Climate Change Service',
+        text_gl: 'Servizo Copernicus de Cambio Climatico',
+        url: 'https://climate.copernicus.eu/'
+    }
+];
+
+const LOCAL_IMAGE_BY_YEAR = {};
 
 // Configuration
 const CONFIG = {
@@ -273,6 +276,48 @@ function getImageForYear(year, fallback) {
     return LOCAL_IMAGE_BY_YEAR[year] || fallback;
 }
 
+function buildBilingualContent(year, data) {
+    const severity = analyzeSeverity(data.summary || '');
+
+    let intensityEn = 'moderate pressure';
+    let intensityGl = 'presion moderada';
+
+    if (severity === 2) {
+        intensityEn = 'high wildfire pressure';
+        intensityGl = 'alta presion de incendios';
+    } else if (severity === 0) {
+        intensityEn = 'lower wildfire pressure';
+        intensityGl = 'menor presion de incendios';
+    }
+
+    return {
+        title: `Wildfire Chronicle ${year} / Cronica de incendios ${year}`,
+        summary: `This year recorded ${intensityEn} across Galicia, combining ecological impact, emergency response and territorial vulnerability. / Este ano rexistrou ${intensityGl} en Galicia, combinando impacto ecologico, resposta de emerxencia e vulnerabilidade territorial.`,
+        source: `Source / Fonte: ${data.source || 'Chronodendra dataset'}`
+    };
+}
+
+function getResolvedLinks(year, data) {
+    const usableLinks = Array.isArray(data.links)
+        ? data.links.filter(link => link && link.url && link.url !== '#')
+        : [];
+
+    if (usableLinks.length > 0) {
+        return usableLinks.map(link => ({
+            url: link.url,
+            text: `${link.text} / Ligazon`
+        }));
+    }
+
+    const a = FALLBACK_REFERENCES[year % FALLBACK_REFERENCES.length];
+    const b = FALLBACK_REFERENCES[(year + 1) % FALLBACK_REFERENCES.length];
+
+    return [a, b].map(link => ({
+        url: link.url,
+        text: `${link.text_en} / ${link.text_gl}`
+    }));
+}
+
 function handleMouseMove(e) {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left - CENTER.x;
@@ -345,14 +390,16 @@ function updateUI() {
     if (activeYear) {
         const data = EVENTS_DATA[activeYear];
         const ring = getRingByYear(activeYear);
+        const bilingual = buildBilingualContent(activeYear, data);
+        const resolvedLinks = getResolvedLinks(activeYear, data);
 
         defaultState.classList.add('hidden');
         activeState.classList.remove('hidden');
 
         yearTitle.textContent = activeYear;
-        eventTitle.textContent = data.title;
-        eventSummary.textContent = data.summary;
-        eventSource.textContent = data.source;
+        eventTitle.textContent = bilingual.title;
+        eventSummary.textContent = bilingual.summary;
+        eventSource.textContent = bilingual.source;
 
         eventImage.src = getImageForYear(activeYear, data.image);
         eventImage.alt = `Imagen del anillo ${activeYear}`;
@@ -362,21 +409,17 @@ function updateUI() {
         };
 
         linkList.innerHTML = '';
-        if (Array.isArray(data.links) && data.links.length > 0) {
-            data.links.forEach(link => {
-                const li = document.createElement('li');
-                const anchor = document.createElement('a');
-                anchor.href = link.url;
-                anchor.target = '_blank';
-                anchor.rel = 'noopener noreferrer';
-                anchor.textContent = link.text;
-                li.appendChild(anchor);
-                linkList.appendChild(li);
-            });
-            linksContainer.classList.remove('hidden');
-        } else {
-            linksContainer.classList.add('hidden');
-        }
+        resolvedLinks.forEach(link => {
+            const li = document.createElement('li');
+            const anchor = document.createElement('a');
+            anchor.href = link.url;
+            anchor.target = '_blank';
+            anchor.rel = 'noopener noreferrer';
+            anchor.textContent = link.text;
+            li.appendChild(anchor);
+            linkList.appendChild(li);
+        });
+        linksContainer.classList.remove('hidden');
 
         panel.style.borderLeftColor = ring ? hexToRgba(ring.color, 0.6) : 'rgba(255, 255, 255, 0.1)';
         syncThumbSelection();
