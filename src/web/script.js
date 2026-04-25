@@ -9,7 +9,6 @@ const ctx = canvas.getContext('2d');
 // State
 let rings = [];
 const CENTER = { x: 0, y: 0 };
-let MAX_RADIUS = 0;
 let hoverYear = null;
 let selectedYear = null;
 
@@ -43,7 +42,6 @@ function noise(angle, seed) {
 
 function init() {
     resize();
-    processData();
     window.addEventListener('resize', resize);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('click', handleCanvasClick);
@@ -62,6 +60,18 @@ function resize() {
     canvas.height = parent.clientHeight;
     CENTER.x = canvas.width / 2;
     CENTER.y = canvas.height / 2;
+    
+    // Scale the rings to fit the container dynamically
+    const minDimension = Math.min(canvas.width, canvas.height);
+    const maxAllowedRadius = (minDimension / 2) - 30; // 30px padding for glow
+    
+    const yearsCount = Object.keys(EVENTS_DATA).length;
+    
+    CONFIG.baseRadius = Math.max(20, minDimension * 0.08);
+    // Ensure ringGap is large enough
+    CONFIG.ringGap = Math.max(8, (maxAllowedRadius - CONFIG.baseRadius) / yearsCount);
+
+    processData();
     draw();
 }
 
@@ -89,8 +99,6 @@ function processData() {
             data: data
         });
     });
-
-    MAX_RADIUS = CONFIG.baseRadius + (years.length * CONFIG.ringGap);
 }
 
 function draw() {
