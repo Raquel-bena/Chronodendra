@@ -221,6 +221,7 @@ function updateUI() {
     const eventTitle = document.getElementById('eventTitle');
     const eventSummary = document.getElementById('eventSummary');
     const eventSource = document.getElementById('eventSource');
+    const eventImage = document.getElementById('eventImage');
 
     const activeYear = getActiveYear();
 
@@ -236,6 +237,13 @@ function updateUI() {
         eventSummary.textContent = data.summary;
         eventSource.href = data.source_link;
         eventSource.textContent = "Source / Fonte";
+
+        if (data.image) {
+            eventImage.src = data.image;
+            eventImage.classList.remove('hidden');
+        } else {
+            eventImage.classList.add('hidden');
+        }
 
         panel.style.borderLeftColor = ring ? ring.color : 'rgba(255, 255, 255, 0.1)';
 
