@@ -14,11 +14,25 @@
 </head>
 
 <body>
-    <video autoplay muted loop playsinline class="bg-video">
+    <!-- Fullscreen Video Background -->
+    <video autoplay muted loop playsinline class="bg-video" id="bgVideo">
         <source src="../../assets/video/CHRONODENDRA_VIDEO.mp4" type="video/mp4">
     </video>
     <div class="bg-noise"></div>
-    <div class="page">
+
+    <!-- Loading Overlay -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <h1 class="loader-title">CHRONODENDRA</h1>
+            <div class="loader-bar-container">
+                <div id="loaderBar" class="loader-bar"></div>
+            </div>
+            <p id="loaderPercentage" class="loader-percentage">0%</p>
+        </div>
+    </div>
+
+    <!-- Main Page Content -->
+    <div class="page" id="mainPage">
         <header class="topbar">
             <div class="brand">
                 <h1>CHRONODENDRA</h1>

@@ -41,17 +41,58 @@ function noise(angle, seed) {
 }
 
 function init() {
-    resize();
-    window.addEventListener('resize', resize);
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('click', handleCanvasClick);
-    canvas.addEventListener('mouseleave', () => {
-        hoverYear = null;
-        updateUI();
+    // Hide main page content initially
+    document.getElementById('mainPage').classList.remove('loaded');
+    document.getElementById('bgVideo').classList.remove('loaded');
+    
+    animateLoader(() => {
+        resize();
+        window.addEventListener('resize', resize);
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('click', handleCanvasClick);
+        canvas.addEventListener('mouseleave', () => {
+            hoverYear = null;
+            updateUI();
+            draw();
+        });
         draw();
     });
+}
 
-    draw();
+function animateLoader(onComplete) {
+    let progress = 0;
+    const loaderBar = document.getElementById('loaderBar');
+    const loaderPercentage = document.getElementById('loaderPercentage');
+    const loader = document.getElementById('loader');
+    const mainPage = document.getElementById('mainPage');
+    const bgVideo = document.getElementById('bgVideo');
+
+    // Simulate loading progress
+    const interval = setInterval(() => {
+        // Random increment between 1 and 5
+        progress += Math.random() * 5 + 1;
+        
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+            
+            // Update final visual state
+            loaderBar.style.width = '100%';
+            loaderPercentage.textContent = '100%';
+            
+            // Wait a brief moment before hiding loader to show 100%
+            setTimeout(() => {
+                loader.classList.add('loaded');
+                bgVideo.classList.add('loaded');
+                mainPage.classList.add('loaded');
+                
+                if (onComplete) onComplete();
+            }, 500);
+        } else {
+            loaderBar.style.width = `${progress}%`;
+            loaderPercentage.textContent = `${Math.floor(progress)}%`;
+        }
+    }, 40); // Fast interval for smooth simulation
 }
 
 function resize() {
