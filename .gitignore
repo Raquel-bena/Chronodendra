@@ -18,5 +18,5 @@ coverage/
 output/
 
 # Keep repository lightweight: do not version heavy media assets
-assets/*
-!assets/README.md
+/assets/*
+!/assets/README.md

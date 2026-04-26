@@ -289,7 +289,13 @@ function updateUI() {
 
         if (data.image) {
             eventImage.src = data.image;
-            eventImage.classList.remove('hidden');
+            // Handle broken images by hiding them
+            eventImage.onerror = () => {
+                eventImage.classList.add('hidden');
+            };
+            eventImage.onload = () => {
+                eventImage.classList.remove('hidden');
+            };
         } else {
             eventImage.classList.add('hidden');
         }
