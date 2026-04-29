@@ -7,13 +7,16 @@
     <title>Chronodendra: Rings of Fire</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;700&family=Manrope:wght@400;500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+    <!-- Custom Cursor -->
+    <div id="cursor" class="cursor"></div>
+    <div id="cursorRing" class="cursor-ring"></div>
+
     <!-- Fullscreen Video Background -->
     <video autoplay muted loop playsinline class="bg-video" id="bgVideo">
         <source src="./assets/video/CHRONODENDRA_VIDEO.mp4" type="video/mp4">
@@ -31,20 +34,30 @@
         </div>
     </div>
 
-    <!-- Main Page Content -->
+    <!-- Main Page -->
     <div class="page" id="mainPage">
+
         <header class="topbar">
             <div class="brand">
                 <h1>CHRONODENDRA</h1>
+                <p class="subtitle" data-i18n="subtitle">Rings of Fire History (2007–2025)</p>
             </div>
-            <p class="subtitle">Rings of Fire History (2007 - 2025)</p>
+            <nav class="nav-controls">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="gl">GL</button>
+                    <button class="lang-btn" data-lang="es">ES</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+                <button class="about-btn" id="aboutBtn" data-i18n="about_btn">Acerca de</button>
+            </nav>
         </header>
 
         <main class="container">
+
             <section class="vis-container">
                 <canvas id="treeCanvas"></canvas>
                 <div class="hero-copy">
-                    <h2>A living wildfire archive through interactive rings.</h2>
+                    <h2 data-i18n="hero_copy">Un arquivo vivo de incendios a través de aneis interactivos.</h2>
                 </div>
                 <div id="tooltip" class="tooltip hidden">
                     <span class="tooltip-year"></span>
@@ -52,28 +65,90 @@
             </section>
 
             <aside class="info-panel" id="infoPanel">
-                <div class="info-content default-state">
-                    <h2>Explore the archive</h2>
-                    <p>Hover over the rings to explore the history of wildfires in Galicia, year by year. Each ring represents a year from 2007 to 2025.</p>
-                    <p>Click a ring to pin the data for that year.</p>
 
+                <!-- Default state -->
+                <div class="info-content default-state">
+                    <h2 data-i18n="explore_title">Explora o arquivo</h2>
+                    <p data-i18n="explore_desc">Pasa o rato polos aneis para explorar a historia dos incendios en Galicia, ano por ano. Cada anel representa un ano de 2007 a 2025.</p>
+                    <p data-i18n="click_desc">Fai clic nun anel para fixar os datos daquel ano.</p>
                     <div class="legend">
-                        <h3>Fire Severity Legend</h3>
-                        <div class="legend-item"><span class="swatch color-low"></span> Low Severity</div>
-                        <div class="legend-item"><span class="swatch color-med"></span> Moderate Severity</div>
-                        <div class="legend-item"><span class="swatch color-high"></span> High Severity (Large Fires)</div>
+                        <h3 data-i18n="legend_title">Lenda</h3>
+                        <div class="legend-item">
+                            <span class="swatch swatch-wood"></span>
+                            <span data-i18n="legend_low">Ano tranquilo · madeira sans</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="swatch swatch-char"></span>
+                            <span data-i18n="legend_high">Ano grave · carbón</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="swatch swatch-ember"></span>
+                            <span data-i18n="legend_hover">Hover · brasa activa</span>
+                        </div>
+                        <div class="legend-note" data-i18n="legend_note">O grosor de cada anel reflicte os hectáreas queimados.</div>
                     </div>
                 </div>
 
+                <!-- Active state -->
                 <div class="info-content active-state hidden">
-                    <img id="eventImage" src="" alt="Event Image" class="event-image hidden">
-                    <h2 id="yearTitle">2024</h2>
-                    <h3 id="eventTitle">Event Title</h3>
-                    <p id="eventSummary">Event summary...</p>
-                    <a id="eventSource" class="source-tag" href="#" target="_blank" rel="noopener noreferrer">Source</a>
+
+                    <div class="panel-header">
+                        <span class="panel-year" id="yearTitle">—</span>
+                        <div class="panel-hectares">
+                            <span id="hectaresCounter" class="hectares-num">0</span>
+                            <span class="hectares-label" data-i18n="ha_label">ha queimadas</span>
+                        </div>
+                    </div>
+
+                    <img id="eventImage" src="" alt="" class="event-image hidden">
+
+                    <div class="panel-body">
+                        <p id="eventSummary" class="event-summary"></p>
+                    </div>
+
+                    <div class="human-factor">
+                        <div class="hf-header">
+                            <span data-i18n="hf_label">Causalidade humana</span>
+                            <span id="hfValue" class="hf-value">—%</span>
+                        </div>
+                        <div class="hf-bar-track">
+                            <div class="hf-bar-fill" id="hfFill"></div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <a id="eventSource" class="source-tag" href="#" target="_blank" rel="noopener noreferrer" data-i18n="source_label">Fonte</a>
+                        <span class="projected-tag hidden" id="projectedTag" data-i18n="projected_label">Proxección</span>
+                    </div>
+
                 </div>
             </aside>
         </main>
+
+        <!-- Timeline Controller -->
+        <div class="timeline" id="timeline">
+            <div class="timeline-label" data-i18n="timeline_label">ANO</div>
+            <div class="timeline-track" id="timelineTrack"></div>
+        </div>
+
+        <!-- Technical Footer -->
+        <footer class="tech-footer">
+            <span>Build Note: Processed via Canvas API v2.4. Optimized for high-density displays. Data visualization integrity maintained by <strong>AI_SABOTAGE_LAB</strong> (2026).</span>
+        </footer>
+
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal hidden" role="dialog" aria-modal="true">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-box">
+            <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+            <h2 class="modal-title">CHRONODENDRA</h2>
+            <p class="modal-body" id="aboutText"></p>
+            <div class="modal-credits">
+                <span>Raquel Benavides · AI_SABOTAGE_LAB · 2026</span>
+            </div>
+        </div>
     </div>
 
     <script src="data.js"></script>

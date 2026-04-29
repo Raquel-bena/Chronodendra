@@ -5,7 +5,7 @@
     },
     "extends": "eslint:recommended",
     "globals": {
-        "EVENTS_DATA": "readonly",
+        "FOREST_DATA": "readonly",
         "introJs": "readonly"
     },
     "parserOptions": {
